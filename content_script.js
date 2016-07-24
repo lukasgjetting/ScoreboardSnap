@@ -14,6 +14,8 @@ tracking.ColorTracker.registerColor('green', function(r, g, b) {
 });
 */
 
+
+// This color tracks the color of empty item slots
 tracking.ColorTracker.registerColor('white', function(r, g, b) {
   if (g < 30 && r < g && b < g && r < b) {
     return true;
@@ -23,24 +25,28 @@ tracking.ColorTracker.registerColor('white', function(r, g, b) {
 
 
 var colors = new tracking.ColorTracker(['white']);
-
-
+var videoElement = jQuery('video');
+var trackerTask;
+      
 colors.on('track', function(event) {
     if (event.data.length === 0) {
         // No colors were detected in this frame.
-        console.log("none");
     } else {
-        event.data.forEach(function(rect) {
-            console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
-            plotRectangle(document.querySelector('video'), rect);
+        event.data.forEach(function(rect) { 
+            //console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
+            plotRectangle(videoElement, rect);
+
+            // This is to make sure we don't catch the HUD itemslots instead. The HUD set to max size is at most 25% of the screen height.
+            if(rect.y < videoElement.height() * 0.75) {
+                  console.log('Scoreboard!');
+            }
         });
     }
 });
 
-tracking.track('video', colors);
+trackerTask = tracking.track('video', colors);
 
-function plotRectangle(el, rect) {
-      var e = jQuery(el);
+function plotRectangle(e, rect) {
       var div = document.createElement('div');
       div.style.position = 'absolute';
       div.style.border = '2px solid ' + (rect.color || 'orange');
@@ -53,7 +59,7 @@ function plotRectangle(el, rect) {
     
       setTimeout(function(){
           jQuery(div).remove();
-      }, 500);
+      }, 250);
 
       return div;
  }
