@@ -12,14 +12,20 @@
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 400px;
+        width: 150px;
+        font-size: 12px;
+      }
+      .loading {
+        width: 14px;
+        height: auto;
+        padding-left: 10px;
+        padding-top: 2px;
       }
     </style>
     <script src="popup.js"></script>
   </head>
   <body>
-    <div id="status">Scoreboard</div>
-    <img id="image-result" hidden>
+    <div id="status">Looking for scoreboard<img class="loading" src="loading.gif"></div>
   </body>
 </html>
 
