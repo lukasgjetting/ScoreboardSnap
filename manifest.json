@@ -1,0 +1,15 @@
+﻿{
+  "manifest_version": 2,
+
+  "name": "Scoreboard Snap",
+  "description": "Makes it easier for people to see the scoreboard while watching a Twitch stream.",
+  "version": "0.30",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab"
+  ]
+}
