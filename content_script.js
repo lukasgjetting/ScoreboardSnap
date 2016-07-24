@@ -1,11 +1,28 @@
+/*
 tracking.ColorTracker.registerColor('drake', function(r, g, b) {
-  if ((r > 20 && r < 50) && (g > 20 && g < 35) && (b > 5 && b < 15) {
+  if ((r > 20 && r < 50) && (g > 20 && g < 35) && (b > 5 && b < 15)) {
     return true;
   }
   return false;
 });
 
-var colors = new tracking.ColorTracker(['drake']);
+tracking.ColorTracker.registerColor('green', function(r, g, b) {
+  if (r == 5 && g == 13 && b == 11) {
+    return true;
+  }
+  return false;
+});
+*/
+
+tracking.ColorTracker.registerColor('white', function(r, g, b) {
+  if (g < 30 && r < g && b < g && r < b) {
+    return true;
+  }
+  return false;
+});
+
+
+var colors = new tracking.ColorTracker(['white']);
 
 
 colors.on('track', function(event) {
@@ -26,7 +43,7 @@ function plotRectangle(el, rect) {
       var e = jQuery(el);
       var div = document.createElement('div');
       div.style.position = 'absolute';
-      div.style.border = '2px solid ' + (rect.color || 'magenta');
+      div.style.border = '2px solid ' + (rect.color || 'orange');
       div.style.width = rect.width + 'px';
       div.style.height = rect.height + 'px';
       div.style.left = e.offset().left + rect.x + 'px';
@@ -36,7 +53,7 @@ function plotRectangle(el, rect) {
     
       setTimeout(function(){
           jQuery(div).remove();
-      }, 2000);
+      }, 500);
 
       return div;
  }
