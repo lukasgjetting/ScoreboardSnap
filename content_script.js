@@ -34,11 +34,20 @@ colors.on('track', function(event) {
     } else {
         event.data.forEach(function(rect) { 
             //console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
-            plotRectangle(videoElement, rect);
+            //plotRectangle(videoElement, rect);
 
             // This is to make sure we don't catch the HUD itemslots instead. The HUD set to max size is at most 25% of the screen height.
             if(rect.y < videoElement.height() * 0.75) {
+                  var canvas = document.createElement("canvas");
+                  canvas.width = videoElement.width();
+                  canvas.height = videoElement.height();
+                  canvas.getContext('2d').drawImage(videoElement[0], 0, 0, canvas.width, canvas.height);
+                  
+                  var data = canvas.toDataURL();
+                  
                   console.log('Scoreboard!');
+                  console.log(trackerTask);
+                  trackerTask.stop();
             }
         });
     }
