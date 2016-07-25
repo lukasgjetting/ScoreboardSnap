@@ -29,28 +29,55 @@ var videoElement = jQuery('video');
 var trackerTask;
       
 colors.on('track', function(event) {
-    if (event.data.length === 0) {
-        // No colors were detected in this frame.
-    } else {
-        event.data.forEach(function(rect) { 
-            //console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
-            //plotRectangle(videoElement, rect);
+  if (event.data.length === 0) {
+      // No colors were detected in this frame.
+  } else {
+    
+    var rect;
 
-            // This is to make sure we don't catch the HUD itemslots instead. The HUD set to max size is at most 25% of the screen height.
-            if(rect.y < videoElement.height() * 0.75) {
-                  var canvas = document.createElement("canvas");
-                  canvas.width = videoElement.width();
-                  canvas.height = videoElement.height();
-                  canvas.getContext('2d').drawImage(videoElement[0], 0, 0, canvas.width, canvas.height);
-                  
-                  var data = canvas.toDataURL();
-                  
-                  console.log('Scoreboard!');
-                  console.log(trackerTask);
-                  trackerTask.stop();
-            }
-        });
+    for(var i = 0; i < event.data.length; i++) {
+      rect = event.data[i];
+      plotRectangle(videoElement, rect);
+
+      // This is to make sure we don't catch the HUD itemslots instead. The HUD set to max size is at most 25% of the screen height.
+      if(rect.y < videoElement.height() * 0.75) {
+        var canvas = document.createElement("canvas");
+        canvas.width = videoElement.width();
+        canvas.height = videoElement.height();
+        canvas.getContext('2d').drawImage(videoElement[0], 0, 0, canvas.width, canvas.height);
+        
+        var data = canvas.toDataURL();
+        
+        console.log('Scoreboard!');
+        //console.log(trackerTask);
+        trackerTask.stop();
+
+        break;
+      }
+      console.log(event.data[i]);
     }
+    console.log();
+    /*
+      event.data.forEach(function(rect) { 
+          //console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
+          plotRectangle(videoElement, rect);
+
+          // This is to make sure we don't catch the HUD itemslots instead. The HUD set to max size is at most 25% of the screen height.
+          if(rect.y < videoElement.height() * 0.75) {
+                var canvas = document.createElement("canvas");
+                canvas.width = videoElement.width();
+                canvas.height = videoElement.height();
+                canvas.getContext('2d').drawImage(videoElement[0], 0, 0, canvas.width, canvas.height);
+                
+                var data = canvas.toDataURL();
+                
+                console.log('Scoreboard!');
+                //console.log(trackerTask);
+                trackerTask.stop();
+          }
+      });
+    */
+  }
 });
 
 trackerTask = tracking.track('video', colors);
